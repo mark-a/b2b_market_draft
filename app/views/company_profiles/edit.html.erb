@@ -1,0 +1,68 @@
+<div class="regestrierungswraper">
+    <%= render "form" %>
+
+    <h3>Angebote</h3>
+    <% @provider_matchings.each do |pro_match, values| %>
+    <p>
+        <%= values.first.criterium.name %>: <%= values.map do |x|
+          if x.criterium_value
+            x.criterium_value.title
+          else
+            [x.values_from.to_f / values.first.criterium.divisor,x.values_to.to_f / values.first.criterium.divisor].join(" - ")
+          end
+        end.join(', ') %>
+    </p>
+    <% end %>
+    <div class="tabbed">
+     <% @categories.each.with_index do |cat,index| %>
+        <input <%= index == 0 ? 'checked=checked' : '' %> id="pro_<%= cat.title %>" type="radio" name="tabs_provider" />
+     <% end %>
+       <nav>
+       <% @categories.each do |cat| %>
+          <label for="pro_<%= cat.title %>"><%= t("categories.#{cat.title}") %></label>
+       <% end %>
+       </nav>
+
+       <figure>
+        <% @categories.each do |cat| %>
+            <div class="<%= cat.title %>">
+            <%= form_with url: add_provider_path, method: 'POST' do |form| %>
+               <%= render partial: "search_criterium", object: @criteria[cat.id] ,as: "options" %>
+            <% end %>
+            </div>
+        <% end %>
+       </figure>
+    </div>
+
+    <h3>Gesuche</h3>
+    <% @purchaser_matchings.each do |pur_match,values| %>
+        <%= values.first.criterium.name %>: <%= values.map do |x|
+          if x.criterium_value
+            x.criterium_value.title
+          else
+            [x.values_from.to_f / values.first.criterium.divisor,x.values_to.to_f / values.first.criterium.divisor].join(" - ")
+          end
+        end.join(', ') %>
+    <% end %>
+    <div class="tabbed">
+     <% @categories.each.with_index do |cat,index| %>
+        <input <%= index == 0 ? 'checked=checked' : '' %> id="pur_<%= cat.title %>" type="radio" name="tabs_purchaser" />
+     <% end %>
+       <nav>
+       <% @categories.each do |cat| %>
+          <label for="pur_<%= cat.title %>"><%= t("categories.#{cat.title}") %></label>
+       <% end %>
+       </nav>
+
+       <figure>
+        <% @categories.each do |cat| %>
+            <div class="<%= cat.title %>">
+            <%= form_with url: add_purchaser_path, method: 'POST' do |form| %>
+               <%= render partial: "search_criterium", object: @criteria[cat.id] ,as: "options" %>
+            <% end %>
+            </div>
+        <% end %>
+       </figure>
+    </div>
+
+</div>

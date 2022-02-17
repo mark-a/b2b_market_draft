@@ -1,0 +1,32 @@
+.regestrierungswraper
+  .row
+    .col-lg-6
+      %h5 Anbieter
+      - @tree.select{|el| el.parent_id == nil}.each do |root|
+        - children = @tree.select{|el| el.parent_id == root.id}
+        - unless children.any?
+          %li
+            = link_to t("categories.#{root[:title]}"), provider_search_path(id: root[:id]), title: root[:title]
+        - else
+          %li
+            = link_to t("categories.#{root[:title]}"), provider_search_path(id: root[:id]), title: root[:title]
+            %ul
+              - children.each do |child|
+                %li
+                  = link_to t("categories.#{child[:title]}"), provider_search_path(id: child[:id]), title: child[:title]
+    .col-lg-6
+      %h5 Gesuche
+      - @tree.select{|el| el.parent_id == nil}.each do |root|
+        - children = @tree.select{|el| el.parent_id == root.id}
+        - unless children.any?
+          %li
+            = link_to t("categories.#{root[:title]}"), purchaser_search_path(id: root[:id]), title: root[:title]
+        - else
+          %li
+            = link_to t("categories.#{root[:title]}"), purchaser_search_path(id: root[:id]), title: root[:title]
+            %ul
+              - children.each do |child|
+                %li
+                  = link_to t("categories.#{child[:title]}"), purchaser_search_path(id: child[:id]), title: child[:title]
+  .row
+    .col-lg-12.mb-4

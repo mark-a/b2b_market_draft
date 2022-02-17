@@ -1,0 +1,40 @@
+---
+de:
+  site_name: Steeleado
+  application:
+    footer_full:
+      sub_logo_text: Pour-over you probably haven't heard of them tofu thundercats,
+        cred neutra bicycle rights cronut af stumptown art party DIY vape lo-fi. Gochujang
+        vice dreamcatcher, freegan microdosing pabst skateboard tbh semiotics mlkshk
+        actually williamsburg paleo hell of. Retro vinyl irony kitsch waistcoat lumbersexual.
+        Af yuccie readymade bushwick.
+  search:
+    index:
+      title: 'Steeleado: Suche'
+  landing:
+    index:
+      home: Home
+      features: Funktionen & Vorteile
+      help: Hilfe
+      contact: Kontakt
+      become_member: Mitglied werden
+      section_1:
+        headline: DIE STAHLINDUSTRIE CLEVER VERNETZT
+        text: Finde was du brauchst und zeige was du hast! Der Marktplatz von Steeleado
+          unterstützt den Einkauf und den Vertrieb von Produzenten, Großhändlern und
+          Dienstleistern rund um die Stahlindustrie.
+        button_1: Teste uns hier
+        button_2: Registriere dich jetzt
+  categories:
+    :products: Produkte
+    :services: Dienstleistungen
+    :flange: Flansch
+    :fitting: Fitting
+    :pipe: Rohr
+    :semifinished_semisteel: Halbzeug & Halbstahl
+    :forge_ring_rolled: Schmiede- & Ringwalzprodukte
+    :sheet: Blech
+    :welding: Schweißen
+    :machining: Mechanische Bearbeitung
+    :testing: Erproben
+    :production_output: Produktionsleistung

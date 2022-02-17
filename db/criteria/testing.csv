@@ -1,0 +1,48 @@
+Prüfverfahren,Prüfart,Prüfnorm,Zulassungen
+Aufschweißbiegeversuch,zerstörungsfreie Werkstoffprüfung ,ASTM,ABS (American Bureau of Shipping)
+Biegeversuch,zerstörende Werkstoffprüfung,ASME,Achilles JQS
+Faltversuch,,DIN,ADMA-OPCO (Abu Dhabi Marine Operation Company)
+Blaubruchversuch,,EN,ADNOC (Abu Dhabi National Oil Company)
+Bulgeversuch,,VdTÜV,API Monogram 6A
+Dauerschwingversuch,,ISO,API Monogram 6D
+Druckversuch,,API,API Monogram 6DSS
+Kerbschlagbiegeversuch,,DIN/EN,ASME U-Stamp
+Scherversuch,,DIN/EN/ISO,AVS D 100/50
+Tiefungsversuch,,DIN/ISO,BP (Britsh Petroleum)
+Torsionsversuch,,EN/ISO,Bureau Veritas
+Zeitstandversuch (nicht unterbrochen),,ASTM/ASME,Chevron
+Zeitstandversuch (unterbrochen),,NACE,Class NK (Nippon Kaiji Kyōkai)
+Zugversuch,,SEP,CNOOC (China National Offshore Oil Corporation)
+Härteprüfung,,AVS,CNPC (China National Petroleum Corporation)
+Ultraschallprüfung,,,ConocoPhillips
+Magnetpulverprüfung,,,DBS 918002
+Eindringprüfung,,,DNV-GL
+Dichtheitsprüfung,,,EIL (Engineering India Ltd.)
+Durchstrahlungsprüfung,,,EN ISO 13485
+Leitfähigkeitsprüfung,,,ExxonMobil
+Mikrowellenprüfung,,,GL (Germanischer Lloyd)
+Korngrößenbestimmung,,,KNPC (Kuwait National Petroleum Company)
+Korrosionsprüfung,,,KOC (Kuwait Oil Company)
+Ferroxyltest,,,KRS (Korean Register of Shipping)
+Kupfersulfattest,,,KTA 1401
+Salzsprühnebelprüfung,,,KTA 1408.3
+Rauhigkeitsmessung,,,KTA 3201.1
+Hullzellenprüfung,,,KTA 3211.1
+Ringfaltversuch,,,KTA 3211.3
+Aufweitversuch,,,LR (Lloyd's Register)
+Bördelversuch,,,NORSOK M650
+Ringaufdornversuch,,,NSF/ANSI 61
+Ringzugversuch,,,ONGC (Oil & Natural Gas Corporation)
+CTOD Test,,,PDO (Petroleum Development Oman)
+HIC,,,Petrobras
+SSC/SCC,,,PetroChina
+Lastwechseluntersuchungen,,,Petronas
+Finite-Elemente-Berechnungen,,,RINA (Registro Italiano Navale)
+Glühversuch,,,SABIC (Saudi Basic Industries Corporation)
+Wasserdruckprüfung,,,Saudi Aramco
+Wirbelstromprüfung,,,Shell (Royal Dutch)
+Spektralanalyse,,,Sinopec
+PMI Test,,,Statoil TR2000
+Produktanalyse,,,Total
+Materialverwechslungsprüfung,,,ZADCO (Zakum Development Company)
+Verfahrensprüfung,,,

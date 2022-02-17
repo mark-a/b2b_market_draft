@@ -1,0 +1,6 @@
+
+<% if member_signed_in? && !current_member.admin? %>
+
+<%= link_to "Make me admin", sudo_path, data: { turbo: false }, method: :post, local: true %>
+
+<% end %>

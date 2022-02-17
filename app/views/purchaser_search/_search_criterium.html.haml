@@ -1,0 +1,5 @@
+= label_tag :filter
+= select_tag :filter, options_for_select(options), include_blank: true, class: "new_filter form-control"
+= select_tag :set_value, options_for_select([]), include_blank: true, class: "new_filter_set_value form-control", disabled: true
+= number_field_tag :range_value, nil, class: "new_filter_range_value form-control", disabled: true, min:"0"
+= button_tag "Filter hinzufügen", class: "btn btn-primary float-right"

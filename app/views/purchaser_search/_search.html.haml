@@ -1,0 +1,43 @@
+.row.m-3
+  - if @current
+    %h2= "Käufersuche, Kategorie: #{ t("categories.#{@current.title}") }"
+
+= form_with url: purchaser_search_path(id: @current.id), method: 'POST', class:"form-inline", local: true, data: { turbo: false }  do |form|
+  .container
+    - if @content
+      .row.mb-1
+        .criterium.mb-1
+          = render partial: "search_criterium", object: @select_box_options, as: "options"
+- if @result
+  .row
+    .col-lg-2.m-3
+      - if @search
+        %div.search_box
+          = render partial: 'active_search', collection: @search.pretty_print
+    .col-lg-8.m-3.card-columns
+      - if @result
+        - if @result.any?
+          - @result.each do |result|
+            .card.h-100
+              %a{:href => "#"}
+                - if result.logo.attached?
+                  = image_tag result.logo, class: "card-img-top"
+                - else
+                  %img.card-img-top{:alt => "", :src => "http://placehold.it/700x400"}
+              .card-body
+                %h4.card-title
+                  %a{:href => "#"}
+                    = result.company_name
+                %p.card-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!
+              .card-footer
+                %small.text-muted ★ ★ ★ ★ ☆
+        - else
+          = "Leider keine Ergbnisse"
+
+
+
+
+
+
+
+

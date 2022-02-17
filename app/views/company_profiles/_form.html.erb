@@ -1,0 +1,35 @@
+<% if @company_profile.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@company_profile.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+    <ul>
+      <% @company_profile.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<%= form_with model: @company_profile do |form| %>
+    <%= form.label :name %>
+    <%= form.text_field :company_name %>
+    <%= form.label :legal_form %>
+    <%= form.text_field :legal_form %>
+    <%= form.label :company_type %>
+    <%= form.text_field :company_type %>
+    <%= form.label :company_size %>
+    <%= form.text_field :company_size %>
+    <%= form.label :promotion_url %>
+    <%= form.text_field :promotion_url %>
+    <%= form.label :about_us %>
+    <%= form.text_field :about_us %>
+    <%= form.label :logo %>
+    <%= form.file_field :logo %>
+    <% if form.object.logo.attached? %>
+        <%= image_tag rails_blob_url(form.object.logo) %>
+    <% end %>
+    <p>
+        <%= form.submit %>
+    </p>
+<% end %>
