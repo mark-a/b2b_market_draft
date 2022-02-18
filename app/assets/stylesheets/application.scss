@@ -20,3 +20,115 @@
 body > .alert {
   margin-bottom: 0;
 }
+
+/* tabs with radio buttons start */
+.tabbed figure {
+  display: block;
+  margin-left: 0;
+  border-bottom: 1px solid silver;
+  clear: both;
+}
+
+.tabbed > input,
+.tabbed figure > div { display: none; }
+
+.tabbed figure>div {
+  padding: 20px;
+  width: 100%;
+  border: 1px solid silver;
+  background: #fff;
+  line-height: 1.5em;
+  letter-spacing: 0.3px;
+  color: #444;
+}
+
+nav label {
+  float: left;
+  padding: 15px 15px;
+  border-top: 1px solid silver;
+  border-right: 1px solid silver;
+  background: hsl(210,50%,50%);
+  color: #eee;
+}
+
+nav label:nth-child(1) { border-left: 1px solid silver; }
+nav label:hover { background: hsl(210,50%,40%); }
+nav label:active { background: #ffffff; }
+
+#pro_flange:checked ~ figure .flange,
+#pro_fitting:checked ~ figure .fitting,
+#pro_sheet:checked ~ figure .sheet,
+#pro_welding:checked ~ figure .welding,
+#pro_machining:checked ~ figure .machining,
+#pro_testing:checked ~ figure .testing,
+#pro_production_output:checked ~ figure .production_output,
+#pro_forge_ring_rolled:checked ~ figure .forge_ring_rolled,
+#pro_semifinished_semisteel:checked ~ figure .semifinished_semisteel,
+#pro_pipe:checked ~ figure .pipe,
+#pur_flange:checked ~ figure .flange,
+#pur_fitting:checked ~ figure .fitting,
+#pur_sheet:checked ~ figure .sheet,
+#pur_welding:checked ~ figure .welding,
+#pur_machining:checked ~ figure .machining,
+#pur_testing:checked ~ figure .testing,
+#pur_production_output:checked ~ figure .production_output,
+#pur_forge_ring_rolled:checked ~ figure .forge_ring_rolled,
+#pur_semifinished_semisteel:checked ~ figure .semifinished_semisteel,
+#pur_pipe:checked ~ figure .pipe{ display: block; }
+
+#pro_flange:checked ~ nav label[for="pro_flange"],
+#pro_fitting:checked ~ nav label[for="pro_fitting"],
+#pro_sheet:checked ~ nav label[for="pro_sheet"],
+#pro_welding:checked ~ nav label[for="pro_welding"],
+#pro_machining:checked ~ nav label[for="pro_machining"],
+#pro_testing:checked ~ nav label[for="pro_testing"],
+#pro_production_output:checked ~ nav label[for="pro_production_output"],
+#pro_forge_ring_rolled:checked ~ nav label[for="pro_forge_ring_rolled"],
+#pro_semifinished_semisteel:checked ~ nav label[for="pro_semifinished_semisteel"],
+#pro_pipe:checked ~ nav label[for="pur_pipe"],
+#pur_flange:checked ~ nav label[for="pur_flange"],
+#pur_fitting:checked ~ nav label[for="pur_fitting"],
+#pur_sheet:checked ~ nav label[for="pur_sheet"],
+#pur_welding:checked ~ nav label[for="pur_welding"],
+#pur_machining:checked ~ nav label[for="pur_machining"],
+#pur_testing:checked ~ nav label[for="pur_testing"],
+#pur_production_output:checked ~ nav label[for="pur_production_output"],
+#pur_forge_ring_rolled:checked ~ nav label[for="pur_forge_ring_rolled"],
+#pur_semifinished_semisteel:checked ~ nav label[for="pur_semifinished_semisteel"],
+#pur_pipe:checked ~ nav label[for="pur_pipe"] {
+  background: white;
+  color: #111;
+  position: relative;
+  border-bottom: none;
+}
+
+#pro_flange:checked ~ nav label[for="pro_flange"]:after,
+#pro_fitting:checked ~ nav label[for="pro_fitting"]:after,
+#pro_sheet:checked ~ nav label[for="pro_sheet"]:after,
+#pro_welding:checked ~ nav label[for="pro_welding"]:after,
+#pro_machining:checked ~ nav label[for="pro_machining"]:after,
+#pro_testing:checked ~ nav label[for="pro_testing"]:after,
+#pro_production_output:checked ~ nav label[for="pro_production_output"]:after,
+#pro_forge_ring_rolled:checked ~ nav label[for="pro_forge_ring_rolled"]:after,
+#pro_semifinished_semisteel:checked ~ nav label[for="pro_semifinished_semisteel"]:after,
+#pro_pipe:checked ~ nav label[for="pro_pipe"]:after,
+#pur_flange:checked ~ nav label[for="pur_flange"]:after,
+#pur_fitting:checked ~ nav label[for="pur_fitting"]:after,
+#pur_sheet:checked ~ nav label[for="pur_sheet"]:after,
+#pur_welding:checked ~ nav label[for="pur_welding"]:after,
+#pur_machining:checked ~ nav label[for="pur_machining"]:after,
+#pur_testing:checked ~ nav label[for="pur_testing"]:after,
+#pur_production_output:checked ~ nav label[for="pur_production_output"]:after,
+#pur_forge_ring_rolled:checked ~ nav label[for="pur_forge_ring_rolled"]:after,
+#pur_semifinished_semisteel:checked ~ nav label[for="pur_semifinished_semisteel"]:after,
+#pur_pipe:checked ~ nav label[for="pur_pipe"]:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: white;
+  left: 0;
+  bottom: -1px;
+}
+/* tabs with radio buttons end */

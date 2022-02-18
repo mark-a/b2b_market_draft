@@ -9,28 +9,6 @@ class CompanyProfilesController < ApplicationController
     @company_profile = CompanyProfile.new
   end
 
-  def create
-    unless current_account.company
-        if company_profile_params[:company_name].present?
-            current_account.company = Company.create(name: company_profile_params[:company_name])
-            current_account.save!
-        else
-            flash[:error] = "Need company name"
-        end
-    end
-    if current_account.company
-        @company_profile = CompanyProfile.new(company_profile_params)
-        @company_profile.company = current_account.company
-        if @company_profile.save
-          check_licence_and_profile
-        else
-           render :new
-        end
-    else
-      render :new
-    end
-  end
-
   def show
 
   end
