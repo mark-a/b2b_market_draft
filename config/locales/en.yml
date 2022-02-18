@@ -1,2 +1,47 @@
+---
 en:
-  hello: "Hello world"
+  site_name: B2B market
+  application:
+    footer_full:
+      sub_logo_text: Pour-over you probably haven't heard of them tofu thundercats,
+        cred neutra bicycle rights cronut af stumptown art party DIY vape lo-fi. Gochujang
+        vice dreamcatcher, freegan microdosing pabst skateboard tbh semiotics mlkshk
+        actually williamsburg paleo hell of. Retro vinyl irony kitsch waistcoat lumbersexual.
+        Af yuccie readymade bushwick.
+  search:
+    index:
+      title: Product search
+    no_results: No results, yet
+    add_filter: Add filter
+    provider: Provider
+    purchaser: Purchaser
+  navigation:
+    provider_category: Provider search, category
+    purchaser_category: Purchaser search, category
+  landing:
+    index:
+      home: Home
+      features: Funktionen & Vorteile
+      help: Hilfe
+      contact: Kontakt
+      become_member: Mitglied werden
+      section_1:
+        headline: DIE STAHLINDUSTRIE CLEVER VERNETZT
+        text: Finde was du brauchst und zeige was du hast! Der Marktplatz
+          unterstützt den Einkauf und den Vertrieb von Produzenten, Großhändlern und
+          Dienstleistern rund um die Stahlindustrie.
+        button_1: Teste uns hier
+        button_2: Registriere dich jetzt
+  categories:
+    :products: products
+    :services: services
+    :flange: flanges
+    :fitting: fittings
+    :pipe: pipes
+    :semifinished_semisteel: semi-finished and semi-steel
+    :forge_ring_rolled: forged and ring rolled
+    :sheet: sheets
+    :welding: welding
+    :machining: machining
+    :testing: testing
+    :production_output: special production output

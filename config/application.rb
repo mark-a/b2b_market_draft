@@ -13,6 +13,9 @@ module B2bMarket
 
     config.application_name = "B2B Market"
 
+    I18n.available_locales = [:de, :en]
+
+    I18n.default_locale = :de
 
     config.i18n.fallbacks = [:en]
     # Configuration for the application, engines, and railties goes here.

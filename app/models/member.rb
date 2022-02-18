@@ -6,4 +6,6 @@ class Member < ApplicationRecord
          :confirmable, :lockable, :trackable
 
   has_many :notifications, as: :recipient
+
+  has_and_belongs_to_many :companies
 end

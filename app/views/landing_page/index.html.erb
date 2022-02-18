@@ -1,6 +1,30 @@
+<% if member_signed_in? %>
 
-<% if member_signed_in? && !current_member.admin? %>
+  <% unless current_member.admin? %>
+    <div class="row">
+      <%= link_to "Make me admin", sudo_path, data: { turbo: false }, method: :post, local: true %>
+    </div>
+  <% end %>
 
-<%= link_to "Make me admin", sudo_path, data: { turbo: false }, method: :post, local: true %>
 
+  <div class="row">
+    Add company
+  </div>
+  <div class="row">
+    <%= form_for(Company.new) do |f| %>
+      Company name: <%= f.text_field :name %>
+      <%= f.submit %>
+    <% end %>
+  </div>
+
+  <div class="row">
+    My companies
+  </div>
+  <div class="row">
+    <ul>
+      <% current_member.companies.each do |company| %>
+        <li><%= company.name %> <%= link_to "Edit profile", edit_company_profile_path(company.profile) %></li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>

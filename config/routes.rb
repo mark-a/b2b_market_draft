@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   end
   devise_for :members
 
+  resources :companies
+
   scope "(:locale)", locale: /en|es|de/ do
     get "/" => "landing_page#index", as: :locale_root
 

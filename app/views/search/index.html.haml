@@ -1,7 +1,7 @@
 .regestrierungswraper
   .row
     .col-lg-6
-      %h5 Anbieter
+      %h5= t("search.provider")
       - @tree.select{|el| el.parent_id == nil}.each do |root|
         - children = @tree.select{|el| el.parent_id == root.id}
         - unless children.any?
@@ -15,7 +15,7 @@
                 %li
                   = link_to t("categories.#{child[:title]}"), provider_search_path(id: child[:id]), title: child[:title]
     .col-lg-6
-      %h5 Gesuche
+      %h5= t("search.purchaser")
       - @tree.select{|el| el.parent_id == nil}.each do |root|
         - children = @tree.select{|el| el.parent_id == root.id}
         - unless children.any?

@@ -1,6 +1,6 @@
 ---
 de:
-  site_name: Steeleado
+  site_name: B2B market
   application:
     footer_full:
       sub_logo_text: Pour-over you probably haven't heard of them tofu thundercats,
@@ -10,7 +10,14 @@ de:
         Af yuccie readymade bushwick.
   search:
     index:
-      title: 'Steeleado: Suche'
+      title: Produktsuche
+    no_results: Leider noch keine Ergbnisse
+    add_filter: Filter hinzufügen
+    provider: Anbieter
+    purchaser: Gesuche
+  navigation:
+    provider_category: Anbietersuche, Kategorie
+    purchaser_category: Käufersuche, Kategorie
   landing:
     index:
       home: Home
@@ -20,7 +27,7 @@ de:
       become_member: Mitglied werden
       section_1:
         headline: DIE STAHLINDUSTRIE CLEVER VERNETZT
-        text: Finde was du brauchst und zeige was du hast! Der Marktplatz von Steeleado
+        text: Finde was du brauchst und zeige was du hast! Der Marktplatz
           unterstützt den Einkauf und den Vertrieb von Produzenten, Großhändlern und
           Dienstleistern rund um die Stahlindustrie.
         button_1: Teste uns hier

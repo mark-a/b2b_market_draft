@@ -1,5 +1,5 @@
 class CriteriaUploadController < ApplicationController
-  before_action :authenticate_account!
+  before_action :authenticate_member!
 
   # matches 2times formats : 30 1/2 , 30,5 , 30.5 divided by dash
   #match = params[:set_value].match /^(\d*\s*\d+[\.,\/]?\d*)+\s*-\s*(\d*\s*\d+[\.,\/]?\d*)+$/

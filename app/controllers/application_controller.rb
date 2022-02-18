@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = params[:locale] || request.env["rack.locale"] || :en
+    I18n.locale = params[:locale] || request.env["rack.locale"] || I18n.default_locale
   end
 end

@@ -1,5 +1,4 @@
 class CompanyProfilesController < ApplicationController
-  skip_before_action :check_licence, except: [:show]
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
   def index
