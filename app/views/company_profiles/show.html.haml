@@ -1,0 +1,7 @@
+%p#notice= notice
+
+= render partial: "company_card", object: @company_profile
+
+= link_to 'Edit', edit_company_profile_path(@company_profile)
+\|
+= link_to 'Back', root_path

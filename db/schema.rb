@@ -111,11 +111,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_18_114307) do
     t.index ["unlock_token"], name: "index_members_on_unlock_token", unique: true
   end
 
-  create_table "not_companies", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "notifications", force: :cascade do |t|
     t.string "recipient_type", null: false
     t.integer "recipient_id", null: false

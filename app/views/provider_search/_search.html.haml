@@ -18,19 +18,7 @@
       - if @result
         - if @result.any?
           - @result.each do |result|
-            .card.h-100
-              %a{:href => "#"}
-                - if result.logo.attached?
-                  = image_tag result.logo, class: "card-img-top"
-                - else
-                  %img.card-img-top{:alt => "", :src => "http://placehold.it/700x400"}
-              .card-body
-                %h4.card-title
-                  %a{:href => "#"}
-                    = result.company_name
-                %p.card-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!
-              .card-footer
-                %small.text-muted ★ ★ ★ ★ ☆
+            = render partial: "company_card", object: result
         - else
           = "#{ t("search.no_results") }"
 
