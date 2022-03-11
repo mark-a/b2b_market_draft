@@ -1,65 +1,88 @@
 #[macro_use]
 extern crate rutie;
+extern crate colorsys;
 extern crate delaunator;
 extern crate image;
 extern crate imageproc;
-extern crate nanorand;
-extern crate uuid;
+extern crate nalgebra as na;
+extern crate poisson;
+extern crate rand;
 
+use colorsys::{ColorTransform, Rgb, SaturationInSpace};
+use core::cmp::{max, min};
 use delaunator::{triangulate, Point};
 use image::{ImageBuffer, RgbaImage};
 use imageproc::drawing;
 use imageproc::point::Point as DrawPoint;
-use nanorand::{Rng, WyRand};
+use poisson::{algorithm, Builder, Type};
+use rand::{distributions::Alphanumeric, Rng};
 use rutie::{Class, Integer, Object, RString};
 use std::fs;
-use core::cmp::{min,max};
-use uuid::Uuid;
+use std::str::FromStr;
 
 class!(Dream);
 
 methods!(
     Dream,
     _rtself,
-    fn pub_image(width: Integer, height: Integer) -> RString {
+    fn pub_image(width: Integer, height: Integer, color: RString) -> RString {
         let result_width = width.unwrap().to_u32();
         let result_height = height.unwrap().to_u32();
+        let max_width = f64::from(result_width - 1);
+        let max_height = f64::from(result_height - 1);
+
+        let mut rgb: Rgb = color.unwrap().to_str().parse().unwrap();
 
         let mut image: RgbaImage = ImageBuffer::new(result_width, result_height);
 
-        let colors = [
-            image::Rgba([21, 114, 161,255]),
-            image::Rgba([154, 208, 236,255]),
-            image::Rgba([239, 218, 215,255]),
-            image::Rgba([227, 190, 198,255]),
-        ];
+        let mut colors = Vec::new();
 
-        let mut points = vec![
-            Point { x: 0., y: 0. },
-            Point {
-                x: f64::from(result_width - 1),
-                y: 0.,
-            },
-        ];
+        for i in 0..10 {
+            if i > 0 {
+                rgb.lighten(2.)
+            }
+            let rgb_arr: [u8; 3] = (&rgb).into();
+            colors.push( image::Rgba([rgb_arr[0],rgb_arr[1],rgb_arr[2],255]));
+        }
 
-        let mut rng = WyRand::new();
-        let num_points = result_width * result_height / 100;
-        for _i in 0..num_points {
+        let mut points = Vec::new();
+        let mut rng = rand::thread_rng();
+        let num_points = (((result_width * result_height) as f64).sqrt() / (2. * 3.14156)) as usize;
+
+        let poisson = Builder::<_, na::Vector2<f64>>::with_samples(num_points, 0.9, Type::Normal)
+            .build(rng, algorithm::Bridson);
+
+        for sample in poisson {
             points.push(Point {
-                x: rng.generate_range(1_u32..result_width - 1) as f64,
-                y: rng.generate_range(1_u32..result_height - 1) as f64,
+                x: sample.x * max_width,
+                y: sample.y * max_height,
             })
         }
-        points.push(Point {
-            x: f64::from(result_width - 1),
-            y: f64::from(result_height - 1),
-        });
-        points.push(Point {
-            x: 0.0,
-            y: f64::from(result_height - 1),
-        });
+
+        points.push(Point { x: 0.0, y: 0.0 });
+
+        for part in 1..=10 {
+            let factor = part as f64 * 0.1;
+            points.push(Point {
+                x: 0.0,
+                y: max_height * factor,
+            });
+            points.push(Point {
+                x: max_width,
+                y: max_height * factor,
+            });
+            points.push(Point {
+                x: max_width * factor,
+                y: 0.0,
+            });
+            points.push(Point {
+                x: max_width * factor,
+                y: max_height,
+            });
+        }
 
         let result = triangulate(&points);
+        let mut index: usize = 0;
         for triangle in result.triangles.chunks(3) {
             let mut draw_points = Vec::new();
             for index in triangle {
@@ -69,21 +92,29 @@ methods!(
                     y: point.y as i32,
                 })
             }
-
-            let color = colors[rng.generate_range(0_usize..colors.len())];
+            let color = colors[index % colors.len()];
+            index += 1;
             draw_polygon_antialiased_mut(&mut image, &draw_points, color);
         }
 
         fs::create_dir_all("tmp/dream").unwrap();
-        let file_name = format!("tmp/dream/{}.png", Uuid::new_v4());
+        let name: String = rng
+            .sample_iter(&Alphanumeric)
+            .take(12)
+            .map(char::from)
+            .collect();
+        let file_name = format!("tmp/dream/{}.png", name);
 
         image.save(&file_name).unwrap();
         RString::new_utf8(&file_name)
     }
 );
 
-fn draw_polygon_antialiased_mut(canvas: &mut RgbaImage, poly: &[DrawPoint<i32>], color: image::Rgba<u8>)
-{
+fn draw_polygon_antialiased_mut(
+    canvas: &mut RgbaImage,
+    poly: &[DrawPoint<i32>],
+    color: image::Rgba<u8>,
+) {
     if poly.is_empty() {
         return;
     }

@@ -6,7 +6,7 @@ RSpec.describe Daydream do
   end
 
   it "does something useful" do
-    file_name = Dream.image(200,400)
+    file_name = Dream.image(400,200,"rgb(127,174,255)")
     expect(File).to exist(file_name)
   end
 end
