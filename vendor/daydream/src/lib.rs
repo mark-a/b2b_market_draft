@@ -8,30 +8,31 @@ extern crate nalgebra as na;
 extern crate poisson;
 extern crate rand;
 
-use colorsys::{ColorTransform, Rgb, SaturationInSpace};
+use colorsys::{ColorTransform, Rgb};
 use core::cmp::{max, min};
 use delaunator::{triangulate, Point};
 use image::{ImageBuffer, RgbaImage};
 use imageproc::drawing;
 use imageproc::point::Point as DrawPoint;
 use poisson::{algorithm, Builder, Type};
-use rand::{distributions::Alphanumeric, Rng};
+use rand::{distributions::Alphanumeric, Rng, SeedableRng};
+use rand::rngs::SmallRng;
 use rutie::{Class, Integer, Object, RString};
 use std::fs;
-use std::str::FromStr;
 
 class!(Dream);
 
 methods!(
     Dream,
     _rtself,
-    fn pub_image(width: Integer, height: Integer, color: RString) -> RString {
+    fn pub_image(width: Integer, height: Integer, color: RString, seed_number: Integer) -> RString {
         let result_width = width.unwrap().to_u32();
         let result_height = height.unwrap().to_u32();
         let max_width = f64::from(result_width - 1);
         let max_height = f64::from(result_height - 1);
-
-        let mut rgb: Rgb = color.unwrap().to_str().parse().unwrap();
+        let base_rgb: Rgb = color.unwrap().to_str().parse().unwrap();
+        let mut rgb: Rgb = base_rgb.clone();
+        let seed = seed_number.unwrap().to_u64();
 
         let mut image: RgbaImage = ImageBuffer::new(result_width, result_height);
 
@@ -46,11 +47,11 @@ methods!(
         }
 
         let mut points = Vec::new();
-        let mut rng = rand::thread_rng();
         let num_points = (((result_width * result_height) as f64).sqrt() / (2. * 3.14156)) as usize;
 
+        let mut rng = SmallRng::seed_from_u64(seed);
         let poisson = Builder::<_, na::Vector2<f64>>::with_samples(num_points, 0.9, Type::Normal)
-            .build(rng, algorithm::Bridson);
+            .build(&mut rng, algorithm::Bridson);
 
         for sample in poisson {
             points.push(Point {
@@ -103,7 +104,7 @@ methods!(
             .take(12)
             .map(char::from)
             .collect();
-        let file_name = format!("tmp/dream/{}.png", name);
+        let file_name = format!("tmp/dream/{}{}.png", name, base_rgb.to_hex_string());
 
         image.save(&file_name).unwrap();
         RString::new_utf8(&file_name)

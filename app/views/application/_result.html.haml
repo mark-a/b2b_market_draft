@@ -1,0 +1,8 @@
+- if result
+  - if result.any?
+    - result.each do |result|
+      = render partial: "company_card", object: result
+  - else
+    = "#{ t("search.no_results") }"
+    - if member_signed_in?
+      = "#{ t("search.add_this") }"

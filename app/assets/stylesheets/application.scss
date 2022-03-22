@@ -8,14 +8,6 @@
 @import "jumpstart/sticky-footer";
 @import "jumpstart/announcements";
 
-// Fixes bootstrap nav-brand container overlap
-@include media-breakpoint-down(xs) {
-  .container {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
 // Masquerade alert shouldn't have a bottom margin
 body > .alert {
   margin-bottom: 0;

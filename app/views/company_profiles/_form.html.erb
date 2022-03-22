@@ -11,7 +11,7 @@
 <% end %>
 
 
-<%= form_with model: @company_profile do |form| %>
+<%= bootstrap_form_with model: @company_profile do |form| %>
     <%= form.label :name %>
     <%= form.text_field :company_name %>
     <%= form.label :legal_form %>

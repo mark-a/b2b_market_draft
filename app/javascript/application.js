@@ -1,6 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "jquery"
+import "popper"
 import "bootstrap"
 import "controllers"
 
@@ -49,8 +50,8 @@ let ready_function = function () {
 $(document).ready(ready_function);
 
 $(document).on("turbo:load", () => {
-    $('[data-toggle="tooltip"]').tooltip()
-    $('[data-toggle="popover"]').popover()
-    $('[data-toggle="toast"]').toast('show')
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="popover"]').popover()
+    $('[data-bs-toggle="toast"]').toast('show')
 	ready_function();
 })

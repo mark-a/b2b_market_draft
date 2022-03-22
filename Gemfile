@@ -49,16 +49,17 @@ gem "sassc-rails"
 # gem "image_processing", "~> 1.2"
 
 gem "devise"
+gem "devise-i18n"
+gem "devise-bootstrap5"
 gem "devise_masquerade"
 gem "font-awesome-sass", "~> 5.13"
-gem "bootstrap", "~> 4.5"
+gem "bootstrap", "~> 5.0"
+gem "bootstrap_form", "~> 5.0"
 
 gem "csv", "~> 3.2"
 gem "haml-rails", "~> 2.0"
-gem 'devise-i18n'
 gem 'will_paginate'
 
-gem 'devise-bootstrapped', github: 'excid3/devise-bootstrapped', branch: 'bootstrap4'
 gem "noticed", "~> 1.2"
 gem "administrate"
 

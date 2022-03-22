@@ -3,11 +3,13 @@ class CompaniesController < ApplicationController
 
   # GET /companies or /companies.json
   def index
-    @companies = Company.all
+    @companies = Company.includes(:profile).all
   end
 
   # GET /companies/1 or /companies/1.json
   def show
+    @company.profile.id
+    redirect_to company_profile_path(id: @company.profile.id)
   end
 
   # GET /companies/new
@@ -17,13 +19,15 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1/edit
   def edit
+    redirect_to edit_company_profile_path(id: @company.profile.id)
   end
 
   # POST /companies or /companies.json
   def create
-    @company = Company.new(company_params)
+    @company = Company.new
     @company.members.push current_member
     @company.profile = CompanyProfile.new
+    @company.profile.company_name = params[:company][:name]
 
     respond_to do |format|
       if @company.save

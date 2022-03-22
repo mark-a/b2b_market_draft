@@ -22,8 +22,8 @@
   </div>
   <div class="row">
     <ul>
-      <% current_member.companies.each do |company| %>
-        <li><%= company.name %> <%= link_to "Edit profile", edit_company_profile_path(company.profile) %></li>
+      <% current_member.companies.includes(:profile).each do |company| %>
+        <li><%= company.profile.company_name %> <%= link_to "Edit profile", edit_company_profile_path(company.profile) %></li>
       <% end %>
     </ul>
   </div>
