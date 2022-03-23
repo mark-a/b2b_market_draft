@@ -2,7 +2,7 @@
   - if @current
     %h2= "#{ t("navigation.provider_category") }: #{ t("categories.#{@current.title}") }"
 
-= form_with url: provider_search_path(id: @current.id), method: 'POST', class:"form-inline", local: true, data: { turbo: false } do |form|
+= form_with url: provider_search_path(id: @current.id), method: 'POST', class:"form", local: true, data: { turbo: false } do |form|
   .container
     - if @content
       .row.mb-1

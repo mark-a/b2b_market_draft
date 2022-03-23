@@ -1,19 +1,12 @@
 class PurchaserSearchController < ApplicationController
+  include CriteriaParamsStorage
 
   def show
-    node = params[:id].to_i
+    handle_search_params_for(id: params[:id], session_symbol: :purchaser_search)
 
-    if params[:filter] && (params[:set_value] || params[:range_value])
-      session[:purchaser_search] = session[:purchaser_search] || {}
-      session[:purchaser_search][params[:filter]] = params[:set_value] || params[:range_value]
-    end
-
-    if params[:delete_filter]
-      session[:purchaser_search].delete(params[:delete_filter])
-    end
-
-    if node > 0
-      @current = Search::Category.find(node)
+    group_id = params[:id].to_i
+    if group_id > 0
+      @current = Search::Category.find(group_id)
       @children = Search::Category.where(parent_id: @current.id)
 
      unless @children.any?
@@ -25,7 +18,7 @@ class PurchaserSearchController < ApplicationController
         @subs = Search::Category.where(parent_id: @current.id)
       end
 
-      @search = Search::ActiveSearch.new(session[:purchaser_search])
+      @search = Search::ActiveSearch.new(session[:purchaser_search]&.dig(params[:id]))
 
       search_query = nil
       @search.selection.each do |search|

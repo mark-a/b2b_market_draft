@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :announcements, only: [:index]
 
     get "/" => "landing_page#index", as: :locale_root
+
     resources :company_profiles
     resources :companies
 

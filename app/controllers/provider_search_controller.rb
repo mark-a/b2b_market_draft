@@ -1,20 +1,12 @@
 class ProviderSearchController < ApplicationController
+  include CriteriaParamsStorage
 
   def show
-    node = params[:id].to_i
+    handle_search_params_for(id: params[:id], session_symbol: :provider_search)
 
-    if params[:filter] && (params[:set_value] || params[:range_value])
-      session[:provider_search] = session[:provider_search] || {}
-      session[:provider_search][params[:id]] = session[:provider_search][params[:id]] || {}
-      session[:provider_search][params[:id]][params[:filter]] = params[:set_value] || params[:range_value]
-    end
-
-    if params[:delete_filter]
-      session[:provider_search]&.dig(params[:id])&.delete(params[:delete_filter])
-    end
-
-    if node > 0
-      @current = Search::Category.find(node)
+    group_id = params[:id].to_i
+    if group_id > 0
+      @current = Search::Category.find(group_id)
       @children = Search::Category.where(parent_id: @current.id)
 
       unless @children.any?

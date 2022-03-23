@@ -1,8 +1,16 @@
-- if result
-  - if result.any?
-    - result.each do |result|
-      = render partial: "company_card", object: result
-  - else
-    = "#{ t("search.no_results") }"
-    - if member_signed_in?
-      = "#{ t("search.add_this") }"
+.container
+  - if result
+    - if result.any?
+      - result.each do |result|
+        = render partial: "company_card", object: result
+    - else
+      .row
+        = "#{ t("search.no_results") }"
+      - if member_signed_in?
+        .row.mt-3
+          - path = controller_name == "ProviderSearchController" ? add_provider_path : add_purchaser_path
+          = bootstrap_form_with url: path do |form|
+            - @search.pretty_print.each.with_index do |search|
+              = form.hidden_field :filters, multiple: true, value: [search[2],search[3]].join(";")
+            = form.select :company, options_for_select(current_member.companies.includes(:profile).map{|c| [c.profile.company_name,c.id]}), class: "form-control"
+            = form.button "#{ t("search.add_this")}", class: "btn btn-primary form-control"

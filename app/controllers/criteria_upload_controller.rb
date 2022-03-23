@@ -9,7 +9,19 @@ class CriteriaUploadController < ApplicationController
   #end
 
   def add_provider
-    if params[:filter].present?
+    if params[:filters].present?
+      params[:filters].each do |tuple|
+        criterium_id, value = tuple.split(";")
+        criterium = Search::Criterium.find_by(id: criterium_id)
+        if criterium
+          if criterium.valuetype == "set"
+            add_values(criterium, Search::ProviderCriteriaMatching)
+          elsif criterium.valuetype == "range"
+            add_range(criterium, Search::ProviderCriteriaMatching)
+          end
+        end
+      end
+    elsif params[:filter].present?
       criterium = Search::Criterium.find_by(id: params[:filter])
       if criterium
         if criterium.valuetype == "set"
@@ -23,7 +35,12 @@ class CriteriaUploadController < ApplicationController
   end
 
   def add_purchaser
-    if params[:filter].present?
+    if params[:filters].present?
+      params[:filters].each do |tuple|
+
+      end
+
+    elsif params[:filter].present?
       criterium = Search::Criterium.find_by(id: params[:filter])
       if criterium
         if criterium.valuetype == "set"

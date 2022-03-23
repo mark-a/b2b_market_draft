@@ -1,2 +1,2 @@
 .search.btn-outline-primary
-  = link_to "#{active_search[0]} = #{active_search[1]}", purchaser_search_path(id: params[:id], delete_filter: active_search[2])
+  = link_to "#{active_search[0]} = #{active_search[1]}", purchaser_search_path(id: params[:id], delete_category: active_search[2], delete_value: active_search[3])
