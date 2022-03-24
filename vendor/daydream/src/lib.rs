@@ -15,10 +15,11 @@ use image::{ImageBuffer, RgbaImage};
 use imageproc::drawing;
 use imageproc::point::Point as DrawPoint;
 use poisson::{algorithm, Builder, Type};
-use rand::{distributions::Alphanumeric, Rng, SeedableRng};
 use rand::rngs::SmallRng;
+use rand::{distributions::Alphanumeric, Rng, SeedableRng};
 use rutie::{Class, Integer, Object, RString};
 use std::fs;
+use std::path::Path;
 
 class!(Dream);
 
@@ -30,10 +31,20 @@ methods!(
         let result_height = height.unwrap().to_u32();
         let max_width = f64::from(result_width - 1);
         let max_height = f64::from(result_height - 1);
-        let base_rgb: Rgb = color.unwrap().to_str().parse().unwrap();
+        let base_rgb: Rgb = Rgb::from_hex_str(color.unwrap().to_str()).unwrap();
         let mut rgb: Rgb = base_rgb.clone();
         let seed = seed_number.unwrap().to_u64();
 
+        fs::create_dir_all("tmp/dream").unwrap();
+        let mut rng = SmallRng::seed_from_u64(seed);
+        let name: String = (&mut rng).sample_iter(&Alphanumeric)
+            .take(12)
+            .map(char::from)
+            .collect();
+        let file_name = format!("tmp/dream/{}{}.png", name, base_rgb.to_hex_string());
+        if Path::new(&file_name).exists() {
+            return RString::new_utf8(&file_name);
+        }
         let mut image: RgbaImage = ImageBuffer::new(result_width, result_height);
 
         let mut colors = Vec::new();
@@ -43,15 +54,14 @@ methods!(
                 rgb.lighten(2.)
             }
             let rgb_arr: [u8; 3] = (&rgb).into();
-            colors.push( image::Rgba([rgb_arr[0],rgb_arr[1],rgb_arr[2],255]));
+            colors.push(image::Rgba([rgb_arr[0], rgb_arr[1], rgb_arr[2], 255]));
         }
 
         let mut points = Vec::new();
-        let num_points = (((result_width * result_height) as f64).sqrt() / (2. * 3.14156)) as usize;
+        let num_points = ((result_width * result_height) as f64).sqrt() as usize;
 
-        let mut rng = SmallRng::seed_from_u64(seed);
         let poisson = Builder::<_, na::Vector2<f64>>::with_samples(num_points, 0.9, Type::Normal)
-            .build(&mut rng, algorithm::Bridson);
+            .build(rng, algorithm::Bridson);
 
         for sample in poisson {
             points.push(Point {
@@ -97,14 +107,6 @@ methods!(
             index += 1;
             draw_polygon_antialiased_mut(&mut image, &draw_points, color);
         }
-
-        fs::create_dir_all("tmp/dream").unwrap();
-        let name: String = rng
-            .sample_iter(&Alphanumeric)
-            .take(12)
-            .map(char::from)
-            .collect();
-        let file_name = format!("tmp/dream/{}{}.png", name, base_rgb.to_hex_string());
 
         image.save(&file_name).unwrap();
         RString::new_utf8(&file_name)

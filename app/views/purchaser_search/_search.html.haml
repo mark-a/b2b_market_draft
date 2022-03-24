@@ -1,20 +1,17 @@
-.row.m-3
+.row
   - if @current
     %h2= "#{ t("navigation.purchaser_category") }: #{ t("categories.#{@current.title}") }"
 
-= form_with url: purchaser_search_path(id: @current.id), method: 'POST', class:"form-inline", local: true, data: { turbo: false }  do |form|
-  .container
-    - if @content
-      .row.mb-1
-        .criterium.mb-1
-          = render partial: "search_criterium", object: @select_box_options, as: "options"
+= form_with url: purchaser_search_path(id: @current.id), method: 'POST', class:"form row g-3 criterium", local: true, data: { turbo: false }  do |form|
+  - if @content
+    = render partial: "search_criterium", object: @select_box_options, as: "options"
 - if @result
   .row
-    .col-lg-2.m-3
+    .col-lg-2
       - if @search
         %div.search_box
           = render partial: 'active_search', collection: @search.pretty_print
-    .col-lg-8.m-3.card-columns
+    .col-lg-10
       = render partial: 'result', object: @result
 
 

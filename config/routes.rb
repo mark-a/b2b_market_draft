@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     get "/terms", to: 'landing_page#terms'
   end
 
+  get "/company_profiles/:id/image", to: "company_profiles#image", as: "company_profiles_image"
+
   post "/sudo", to: "landing_page#make_me_admin" if Rails.env.development?
 
   root "landing_page#index"

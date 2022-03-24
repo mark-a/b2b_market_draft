@@ -27,7 +27,7 @@ class CompaniesController < ApplicationController
     @company = Company.new
     @company.members.push current_member
     @company.profile = CompanyProfile.new
-    @company.profile.company_name = params[:company][:name]
+    @company.profile.company_name = params[:company_name]
 
     respond_to do |format|
       if @company.save

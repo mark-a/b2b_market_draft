@@ -1,3 +1,5 @@
+require "daydream"
+
 class CompanyProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
@@ -31,7 +33,21 @@ class CompanyProfilesController < ApplicationController
 
   end
 
+
+  def image
+    @company_profile = CompanyProfile.find(params[:id])
+    if @company_profile && @company_profile.bg_color_hex
+      send_file Rails.root.join(dream_file(@company_profile.bg_color_hex, @company_profile.id)), type: 'image/png', disposition: 'inline'
+    else
+      raise ActionController::RoutingError, 'Not Found'
+    end
+  end
+
   private
+
+  def dream_file(color,seed)
+    File.open(Dream.image(400,200,color,seed), 'r')
+  end
 
   def categories
     @categories ||= Search::Category.where.not(parent_id: nil)
@@ -62,9 +78,11 @@ class CompanyProfilesController < ApplicationController
   def company_profile_params
     params.require(:company_profile).permit(:company_name,
                                              :legal_form,
-                                             :company_type,
-                                             :company_size,
-                                             :promotion_url,
+                                             :address,
+                                             :phone,
+                                             :contact_email,
+                                             :contact_web,
+                                             :bg_color_hex,
                                              :about_us,
                                              :logo)
   end

@@ -11,8 +11,8 @@
     Add company
   </div>
   <div class="row">
-    <%= form_for(Company.new) do |f| %>
-      Company name: <%= f.text_field :name %>
+    <%= form_with(url: companies_path, method: :post) do |f| %>
+      Company name: <%= f.text_field :company_name %>
       <%= f.submit %>
     <% end %>
   </div>

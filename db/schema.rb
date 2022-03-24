@@ -49,7 +49,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_18_114307) do
   end
 
   create_table "companies", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -62,10 +61,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_18_114307) do
   create_table "company_profiles", force: :cascade do |t|
     t.string "company_name"
     t.string "legal_form"
-    t.integer "company_type"
-    t.integer "company_size"
-    t.string "promotion_url"
+    t.text "address"
+    t.string "phone"
+    t.string "contact_email"
+    t.string "contact_web"
     t.text "about_us"
+    t.text "bg_color_hex"
     t.integer "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

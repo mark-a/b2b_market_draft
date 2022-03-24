@@ -19,10 +19,12 @@ class AddCompanies < ActiveRecord::Migration[6.0]
     create_table :company_profiles do |t|
       t.string :company_name
       t.string :legal_form
-      t.integer :company_type
-      t.integer :company_size
-      t.string :promotion_url
+      t.text :address
+      t.string :phone
+      t.string :contact_email
+      t.string :contact_web
       t.text :about_us
+      t.text :bg_color_hex
       t.references :company
       t.timestamps
     end

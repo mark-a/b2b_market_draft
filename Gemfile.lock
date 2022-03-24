@@ -1,3 +1,9 @@
+PATH
+  remote: vendor/daydream
+  specs:
+    daydream (0.1.0)
+      rutie (~> 0.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -276,6 +282,7 @@ GEM
     ruby_parser (3.18.1)
       sexp_processor (~> 4.16)
     rubyzip (2.3.2)
+    rutie (0.0.4)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -342,6 +349,7 @@ DEPENDENCIES
   bootstrap_form (~> 5.0)
   capybara
   csv (~> 3.2)
+  daydream!
   debug
   devise
   devise-bootstrap5

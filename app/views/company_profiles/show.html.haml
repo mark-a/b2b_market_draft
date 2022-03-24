@@ -1,6 +1,7 @@
 %p#notice= notice
 
-= render partial: "company_card", object: @company_profile
+.row.row-cols-lg-3
+  = render partial: "company_card", object: @company_profile
 
 = link_to 'Edit', edit_company_profile_path(@company_profile)
 \|

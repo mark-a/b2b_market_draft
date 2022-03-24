@@ -1,35 +1,29 @@
-<div class="front-side">
-  <div class="color-grid">
-    <div class="black"></div>
-    <div class="red1"></div>
-    <div class="red2"></div>
-    <div class="green"></div>
-  </div>
-  <div class="info-grid">
-    <div class="name">
-      <h2><%= company_card.company_name %></h2>
-      <h5>CREATIVE GRAPHIC DESIGNER</h5>
-    </div>
-    <div class="addr">
+<div class="col p-3">
+    <div class="card" style="background-image: url(<%= company_profiles_image_path(company_card.id) %>)">
+      <div class="info-grid">
+        <div class="name">
+          <h2><%= company_card.company_name %></h2>
+          <h5><%= company_card.legal_form %></h5>
+        </div>
+        <div class="addr">
+          <p>
+            <%= company_card.address %>
+          </p>
+        </div>
+        <div class="phoneNo">
+          <p>
+            <%= link_to company_card.phone, "tel:#{company_card.phone}"%>
+          </p>
+        </div>
+        <div class="emailId">
 
-      <p>1/2 Street,
-        <strong> City</strong>, State,
-        <strong> Country</strong>
-      </p>
+          <p class="email">
+            <%= mail_to company_card.contact_email %>
+          </p>
+          <p class="web">
+            <%= link_to company_card.contact_web, contact_link(company_card.contact_web), target:"_blank" %>
+          </p>
+        </div>
+      </div>
     </div>
-    <div class="phoneNo">
-
-      <p>+000
-        <strong>1234</strong> 4567 7896</p>
-    </div>
-    <div class="emailId">
-
-      <p class="email">yourusername@
-        <strong>email</strong>.com</p>
-      <p class="web">
-        <strong>www</strong>.yourwebsite.
-        <strong>com</strong>
-      </p>
-    </div>
-  </div>
 </div>

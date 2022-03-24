@@ -127,16 +127,15 @@ nav label:active { background: #ffffff; }
 
 
 .front-side {
-  width: 390px;
-  height: 220px;
+  width: 17em;
+  height: 9em;
   display: grid;
   grid-template-columns: 2% 96% 2%;
   grid-template-rows: 4% 92% 4%;
-  position: relative;
-  margin: 20px auto;
   overflow: hidden;
   box-shadow: 2px 5px 15px 0px #17161694;
   background-color: #122529;
+  margin: auto
 }
 .color-grid {
   display: grid;

@@ -1,0 +1,11 @@
+.col
+  = label_tag :filter
+  = select_tag :filter, options_for_select(options), include_blank: true, class: "new_filter form-control"
+.col
+  = label_tag :set_value
+  = select_tag :set_value, options_for_select([]), include_blank: true, class: "new_filter_set_value form-control", disabled: true
+.col
+  = label_tag :range_value
+  = number_field_tag :range_value, nil, class: "new_filter_range_value form-control", disabled: true, min:"0"
+.col-12
+  = button_tag "#{ t("search.add_filter")}", class: "btn btn-primary float-right"
