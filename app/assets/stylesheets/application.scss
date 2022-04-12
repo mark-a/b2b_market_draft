@@ -125,7 +125,6 @@ nav label:active { background: #ffffff; }
 }
 /* tabs with radio buttons end */
 
-
 .front-side {
   width: 17em;
   height: 9em;
@@ -133,7 +132,7 @@ nav label:active { background: #ffffff; }
   grid-template-columns: 2% 96% 2%;
   grid-template-rows: 4% 92% 4%;
   overflow: hidden;
-  box-shadow: 2px 5px 15px 0px #17161694;
+  box-shadow: inset 10px 5px rgba(180, 180, 180, 0.5);
   background-color: #122529;
   margin: auto
 }

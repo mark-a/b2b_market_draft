@@ -17,7 +17,7 @@ use imageproc::point::Point as DrawPoint;
 use poisson::{algorithm, Builder, Type};
 use rand::rngs::SmallRng;
 use rand::{distributions::Alphanumeric, Rng, SeedableRng};
-use rutie::{Class, Integer, Object, RString};
+use rutie::{Class, AnyException, Exception, Integer, Object, RString, VM};
 use std::fs;
 use std::path::Path;
 
@@ -27,91 +27,122 @@ methods!(
     Dream,
     _rtself,
     fn pub_image(width: Integer, height: Integer, color: RString, seed_number: Integer) -> RString {
-        let result_width = width.unwrap().to_u32();
-        let result_height = height.unwrap().to_u32();
-        let max_width = f64::from(result_width - 1);
-        let max_height = f64::from(result_height - 1);
-        let base_rgb: Rgb = Rgb::from_hex_str(color.unwrap().to_str()).unwrap();
-        let mut rgb: Rgb = base_rgb.clone();
-        let seed = seed_number.unwrap().to_u64();
-
-        fs::create_dir_all("tmp/dream").unwrap();
-        let mut rng = SmallRng::seed_from_u64(seed);
-        let name: String = (&mut rng).sample_iter(&Alphanumeric)
-            .take(12)
-            .map(char::from)
-            .collect();
-        let file_name = format!("tmp/dream/{}{}.png", name, base_rgb.to_hex_string());
-        if Path::new(&file_name).exists() {
-            return RString::new_utf8(&file_name);
-        }
-        let mut image: RgbaImage = ImageBuffer::new(result_width, result_height);
-
-        let mut colors = Vec::new();
-
-        for i in 0..10 {
-            if i > 0 {
-                rgb.lighten(2.)
-            }
-            let rgb_arr: [u8; 3] = (&rgb).into();
-            colors.push(image::Rgba([rgb_arr[0], rgb_arr[1], rgb_arr[2], 255]));
-        }
-
-        let mut points = Vec::new();
-        let num_points = ((result_width * result_height) as f64).sqrt() as usize;
-
-        let poisson = Builder::<_, na::Vector2<f64>>::with_samples(num_points, 0.9, Type::Normal)
-            .build(rng, algorithm::Bridson);
-
-        for sample in poisson {
-            points.push(Point {
-                x: sample.x * max_width,
-                y: sample.y * max_height,
-            })
-        }
-
-        points.push(Point { x: 0.0, y: 0.0 });
-
-        for part in 1..=10 {
-            let factor = part as f64 * 0.1;
-            points.push(Point {
-                x: 0.0,
-                y: max_height * factor,
-            });
-            points.push(Point {
-                x: max_width,
-                y: max_height * factor,
-            });
-            points.push(Point {
-                x: max_width * factor,
-                y: 0.0,
-            });
-            points.push(Point {
-                x: max_width * factor,
-                y: max_height,
-            });
-        }
-
-        let result = triangulate(&points);
-        let mut index: usize = 0;
-        for triangle in result.triangles.chunks(3) {
-            let mut draw_points = Vec::new();
-            for index in triangle {
-                let point: &Point = &points[*index];
-                draw_points.push(DrawPoint {
-                    x: point.x as i32,
-                    y: point.y as i32,
-                })
-            }
-            let color = colors[index % colors.len()];
-            index += 1;
-            draw_polygon_antialiased_mut(&mut image, &draw_points, color);
-        }
-
-        image.save(&file_name).unwrap();
-        RString::new_utf8(&file_name)
+        process_image(width,height,color,seed_number).map_err(|e| VM::raise_ex(e.0) ).unwrap()
     }
 );
+
+type MaybeRString = Result<rutie::RString, rutie::AnyException>;
+type MaybeInteger = Result<rutie::Integer, rutie::AnyException>;
+
+struct LocalException(AnyException);
+
+impl From<colorsys::ParseError> for LocalException {
+    fn from(error: colorsys::ParseError) -> Self {
+        LocalException(AnyException::new("ArgumentError",Some(&error.message)))
+    }
+}
+
+impl From<AnyException> for LocalException {
+    fn from(exception: AnyException) -> Self {
+        LocalException(exception)
+    }
+}
+impl From<std::io::Error>for LocalException {
+    fn from(error: std::io::Error) -> Self {
+        LocalException(AnyException::new("IOError",Some(&format!("{}",error))))
+    }
+}
+impl From<image::ImageError>for LocalException {
+    fn from(error: image::ImageError) -> Self {
+        LocalException(AnyException::new("StandardError",Some(&format!("{}",&error))))
+    }
+}
+
+fn process_image(width: MaybeInteger, height: MaybeInteger, color: MaybeRString, seed_number: MaybeInteger) -> Result<RString, LocalException > {
+    let result_width = width?.to_u32();
+    let result_height = height?.to_u32();
+    let max_width = f64::from(result_width - 1);
+    let max_height = f64::from(result_height - 1);
+    let base_rgb: Rgb = Rgb::from_hex_str(color?.to_str())?;
+    let mut rgb: Rgb = base_rgb.clone();
+    let seed = seed_number?.to_u64();
+
+    fs::create_dir_all("tmp/dream")?;
+    let mut rng = SmallRng::seed_from_u64(seed);
+    let name: String = (&mut rng).sample_iter(&Alphanumeric)
+        .take(12)
+        .map(char::from)
+        .collect();
+    let file_name = format!("tmp/dream/{}{}.png", name, base_rgb.to_hex_string());
+    if Path::new(&file_name).exists() {
+        return  Ok(RString::new_utf8(&file_name));
+    }
+    let mut image: RgbaImage = ImageBuffer::new(result_width, result_height);
+
+    let mut colors = Vec::new();
+
+    for i in 0..10 {
+        if i > 0 {
+            rgb.lighten(2.)
+        }
+        let rgb_arr: [u8; 3] = (&rgb).into();
+        colors.push(image::Rgba([rgb_arr[0], rgb_arr[1], rgb_arr[2], 255]));
+    }
+
+    let mut points = Vec::new();
+    let num_points = ((result_width * result_height) as f64).sqrt() as usize;
+
+    let poisson = Builder::<_, na::Vector2<f64>>::with_samples(num_points, 0.9, Type::Normal)
+        .build(rng, algorithm::Bridson);
+
+    for sample in poisson {
+        points.push(Point {
+            x: sample.x * max_width,
+            y: sample.y * max_height,
+        })
+    }
+
+    points.push(Point { x: 0.0, y: 0.0 });
+
+    for part in 1..=10 {
+        let factor = part as f64 * 0.1;
+        points.push(Point {
+            x: 0.0,
+            y: max_height * factor,
+        });
+        points.push(Point {
+            x: max_width,
+            y: max_height * factor,
+        });
+        points.push(Point {
+            x: max_width * factor,
+            y: 0.0,
+        });
+        points.push(Point {
+            x: max_width * factor,
+            y: max_height,
+        });
+    }
+
+    let result = triangulate(&points);
+    let mut index: usize = 0;
+    for triangle in result.triangles.chunks(3) {
+        let mut draw_points = Vec::new();
+        for index in triangle {
+            let point: &Point = &points[*index];
+            draw_points.push(DrawPoint {
+                x: point.x as i32,
+                y: point.y as i32,
+            })
+        }
+        let color = colors[index % colors.len()];
+        index += 1;
+        draw_polygon_antialiased_mut(&mut image, &draw_points, color);
+    }
+
+    image.save(&file_name)?;
+    Ok(RString::new_utf8(&file_name))
+}
 
 fn draw_polygon_antialiased_mut(
     canvas: &mut RgbaImage,
